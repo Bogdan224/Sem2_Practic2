@@ -1,15 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "TV.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#define _CRT_SECURE_NO_WARNINGS
 
 int CheckValues(TV* tv) {
-	if (tv == NULL) {
+	if (tv->_displaySize < 10) {
 		return -1;
-	}
-	else if (tv->_displaySize < 10) {
-		return -2;
 	}
 	else {
 		return 0;
@@ -17,20 +14,23 @@ int CheckValues(TV* tv) {
 }
 
 int Init(TV* res, char* model, int displaySize, bool connectToWifi) {
-	res->_model = model;
+	char* m = (char*)malloc(sizeof(model));
+	strncpy(m, model, sizeof(model));
+	res->_model = m;
 	res->_displaySize = displaySize;
 	res->_connectToWiFi = connectToWifi;
 	if (CheckValues(res) == 0) {
 		return 0;
 	}
 	else {
+		res = NULL;
 		return -1;
 	}
 }
 
 int Init(TV* res, const char* model, int displaySize, bool connectToWifi) {
-	char* m = (char*)malloc(sizeof(char));
-	strcpy_s(m, sizeof(model), model);
+	char* m = (char*)malloc(sizeof(model));
+	strncpy(m, model, sizeof(model));
 	res->_model = m;
 	res->_displaySize = displaySize;
 	res->_connectToWiFi = connectToWifi;
@@ -43,12 +43,15 @@ int Init(TV* res, const char* model, int displaySize, bool connectToWifi) {
 }
 
 void Init(TV* tv, TV* original) {
-	tv->_model = original->_model;
+	char* m = (char*)malloc(sizeof(original->_model));
+	strncpy(m, original->_model, sizeof(original->_model));
+	tv->_model = m;
 	tv->_displaySize = original->_displaySize;
 	tv->_connectToWiFi = original->_connectToWiFi;
 }
 
 void Print(TV* tv) {
+
 	printf("Model: %s\nDisplay size: %d''\n", tv->_model, tv->_displaySize);
 	if (tv->_connectToWiFi) {
 		printf("Connection to WiFi: Yes\n");

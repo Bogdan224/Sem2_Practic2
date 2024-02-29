@@ -17,9 +17,9 @@
 */
 
 struct TV {
-	char* _model;
-	int _displaySize;
-	bool _connectToWiFi;
+	char* _model;//название модели телевизора
+	int _displaySize;//размер дисплея
+	bool _connectToWiFi;//подключение к WIFI
 };
 
 int CheckValues(TV* tv);
